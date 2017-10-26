@@ -2,10 +2,9 @@ package com.rjean84.springooziespark.service;
 
 import com.rjean84.springooziespark.configuration.HadoopProperties;
 import com.rjean84.springooziespark.model.WorkflowParameters;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.oozie.client.OozieClient;
-import org.apache.oozie.client.OozieClientException;
 import org.apache.oozie.client.WorkflowJob;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +27,7 @@ public class OozieService {
         Properties conf = initConf(oozieClient, workflowParameters);
         try {
             String jobId = oozieClient.run(conf);
+
             log.info("Workflow job, " + jobId + " submitted");
             while (oozieClient.getJobInfo(jobId).getStatus() == WorkflowJob.Status.RUNNING) {
                 log.info("Workflow job running ...");
