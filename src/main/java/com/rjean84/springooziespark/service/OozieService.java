@@ -27,7 +27,6 @@ public class OozieService {
         Properties conf = initConf(oozieClient, workflowParameters);
         try {
             String jobId = oozieClient.run(conf);
-
             log.info("Workflow job, " + jobId + " submitted");
             while (oozieClient.getJobInfo(jobId).getStatus() == WorkflowJob.Status.RUNNING) {
                 log.info("Workflow job running ...");

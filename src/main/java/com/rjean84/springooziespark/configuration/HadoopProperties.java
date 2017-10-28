@@ -6,16 +6,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:/hadoop.properties")
+@PropertySource("classpath:hadoop.properties")
 @Getter
 public class HadoopProperties {
 
-    @Value("{hadoop.oozie.url}")
+    @Value("${hadoop.oozie.url}")
     private String oozieUrl;
 
-    @Value("{hadoop.hdfs.namenode.url}")
+    @Value("${hadoop.hdfs.namenode.url}")
     private String nameNodeUrl;
 
-    @Value("{hadoop.mapreduce.jobtracker.url}")
+    @Value("${hadoop.mapreduce.jobtracker.url}")
     private String jobTrackerUrl;
 }
