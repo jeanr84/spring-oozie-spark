@@ -1,0 +1,26 @@
+<workflow-app xmlns='uri:oozie:workflow:0.5' name='OozieSpark'>
+    <start to='spark-node' />
+    <action name='spark-node'>
+        <spark xmlns="uri:oozie:spark-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+                <delete path="${nameNode}/user/${wf:user()}/${applicationPath}/output/${outputData}"/>
+            </prepare>
+            <master>${master}</master>
+            <name>${applicationName}</name>
+            <class>${applicationMainClass}</class>
+            <jar>${nameNode}/user/${wf:user()}/${applicationPath}/lib/${applicationJar}</jar>
+            <spark-opts>${applicationSparkConf}</spark-opts>
+            <arg>${nameNode}/user/${wf:user()}/${applicationPath}/input/${inputData}</arg>
+            <arg>${nameNode}/user/${wf:user()}/${applicationPath}/output/${outputData}</arg>
+        </spark>
+        <ok to="end" />
+        <error to="fail" />
+    </action>
+    <kill name="fail">
+        <message>Workflow failed, error
+            message[${wf:errorMessage(wf:lastErrorNode())}] </message>
+    </kill>
+    <end name='end' />
+</workflow-app>
